@@ -11,3 +11,33 @@ if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
 fi
 
 # Customize to your needs...
+
+export GOPATH=$HOME/.go/lib:$HOME/.go/projects
+path=(
+	$HOME/.rbenv/bin(N-)
+	$HOME/.cargo/bin(N-)
+	$HOME/.go/lib/bin(N-)
+	$HOME/.go/projects/bin(N-)
+	$HOME/.nodebrew/current/bin(N-)
+	$path
+)
+
+eval "$(rbenv init -)"
+
+alias ocaml='rlwrap ocaml'
+
+# brew-file
+if [ -f $(brew --prefix)/etc/brew-wrap ];then
+	source $(brew --prefix)/etc/brew-wrap
+fi	
+
+# OPAM configuration
+. /Users/touyou/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
+
+# original function
+function all-update() {
+    brew update;
+    brew upgrade;
+    brew cleanup;
+    brew cask upgrade
+}
