@@ -13,6 +13,7 @@ fi
 # Customize to your needs...
 
 export GOPATH=$HOME/.go/lib:$HOME/.go/projects
+export HOMEBREW_BREWFILE=$HOME/.brew/Brewfile
 path=(
 	$HOME/.rbenv/bin(N-)
 	$HOME/.cargo/bin(N-)
@@ -25,6 +26,10 @@ path=(
 eval "$(rbenv init -)"
 
 alias ocaml='rlwrap ocaml'
+alias gcc='/usr/local/bin/gcc'
+alias g++='/usr/local/bin/g++'
+alias pip-update='pip freeze --local | grep -v '\''^\-e'\'' | cut -d = -f 1 | xargs pip install -U'
+alias pip3-update='pip3 freeze --local | grep -v '\''^\-e'\'' | cut -d = -f 1 | xargs pip3 install -U'
 
 # brew-file
 if [ -f $(brew --prefix)/etc/brew-wrap ];then
@@ -39,5 +44,10 @@ function all-update() {
     brew update;
     brew upgrade;
     brew cleanup;
-    brew cask upgrade
+    brew cask upgrade;
+    pip-update;
+    pip3-update
 }
+
+# swiftenv
+if which swiftenv > /dev/null; then eval "$(swiftenv init -)"; fi
