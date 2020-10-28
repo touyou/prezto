@@ -14,40 +14,65 @@ fi
 
 export GOPATH=$HOME/.go/lib:$HOME/.go/projects
 export HOMEBREW_BREWFILE=$HOME/.brew/Brewfile
+export HOMEBREW_GITHUB_API_TOKEN=30b84c81e67e965fddd0d5ae58a5ac3849677165
+export DOTNET_ROOT=/usr/local/bin/dotnet
+# for rbenv (ref: https://qiita.com/kazutosato/items/9c4ff7711ca992dd67e5 )
+# 2.3以前が欲しい場合は1.0のパスを反映
+export RUBY_CONFIGURE_OPTS="--with-openssl-dir=/usr/local/opt/openssl@1.1"
 path=(
-	$HOME/.rbenv/bin(N-)
+    $HOME/.anyenv/bin(N-)
 	$HOME/.cargo/bin(N-)
 	$HOME/.go/lib/bin(N-)
 	$HOME/.go/projects/bin(N-)
-	$HOME/.nodebrew/current/bin(N-)
+    $HOME/local/openmpi/bin(N-)
+    $HOME/local/flutter/bin(N-)
+    $HOME/.pub-cache/bin(N-)
+    /Library/TeX/texbin(N-)
+    /usr/local/anaconda3/bin(N-)
 	$path
 )
 
-eval "$(rbenv init -)"
+eval "$(anyenv init -)"
 
 alias ocaml='rlwrap ocaml'
-alias gcc='/usr/local/bin/gcc'
-alias g++='/usr/local/bin/g++'
+alias gcc='/usr/local/bin/gcc-9'
+alias g++='/usr/local/bin/g++-9'
 alias pip-update='pip freeze --local | grep -v '\''^\-e'\'' | cut -d = -f 1 | xargs pip install -U'
-alias pip3-update='pip3 freeze --local | grep -v '\''^\-e'\'' | cut -d = -f 1 | xargs pip3 install -U'
+alias vim='nvim'
+alias emacs='/usr/local/opt/emacs-plus/bin/emacs -nw'
+alias cptest='$HOME/local/cptest_atcoder.sh'
+alias cat='bat'
+# Override ls module
+alias ls='exa'
+alias l='ls -1a'
+alias ll='ls -lh'
+alias la='ll -a'
 
 # brew-file
 if [ -f $(brew --prefix)/etc/brew-wrap ];then
 	source $(brew --prefix)/etc/brew-wrap
-fi	
+fi
 
 # OPAM configuration
 . /Users/touyou/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
 
 # original function
-function all-update() {
+functino brew-update() {
     brew update;
     brew upgrade;
     brew cleanup;
     brew cask upgrade;
+}
+function all-update() {
+    brew-update;
+    anyenv update;
     pip-update;
-    pip3-update
+    sudo tlmgr update --self --all;
+    fmtutil-user --all
 }
 
-# swiftenv
-if which swiftenv > /dev/null; then eval "$(swiftenv init -)"; fi
+#if (which zprof > /dev/null) ;then
+#  zprof | lolcat
+#fi
+
+[[ -z "$TMUX" && ! -z "$PS1" ]] && exec tmux

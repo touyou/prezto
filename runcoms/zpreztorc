@@ -36,16 +36,16 @@ zstyle ':prezto:load' pmodule \
   'utility' \
   'completion' \
   'prompt' \
-  'ruby' \
-  'rails' \
-  'git' \
-  'homebrew' \
-  'haskell' \
-  'python' \
-  'osx' \
-  'ocaml' \
-  'node' \
-  'docker'
+  'git'
+#  'ruby' \
+#  'rails' \
+#  'homebrew'
+#  'haskell' \
+#  'python' \
+#  'osx' \
+#  'ocaml' \
+#  'node' \
+#  'docker'
 
 #
 # Autosuggestions
